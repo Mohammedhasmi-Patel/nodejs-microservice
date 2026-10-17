@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import { toLoginUserResponse, toUserResponse } from "../mapper/user.mapper";
 import jwt from "jsonwebtoken"
 import { generateToken } from "../utils/jwt";
+import { User } from "../types/auth.type";
 
 export async function register(input : RegisterInput){
     const existingUser = await findByEmail(input.email);
@@ -24,12 +25,20 @@ export async function register(input : RegisterInput){
 }
 
 export async function login(input : LoginInput){
-    const existingUser = await findByEmail(input.email);
+    const existingUser : User | null = await findByEmail(input.email);
     
     if(!existingUser){
-        throw new AppError(404,"Invalid credentials.")
+        throw new AppError(401,"Invalid credentials.");
+    }
+
+    const isPasswordMatch = await bcrypt.compare(input.password,existingUser.password_hash);
+    if(!isPasswordMatch){
+        throw new AppError(401,"Invalid credentials.");
     }
 
     const token = await generateToken(existingUser);
-    return toLoginUserResponse(existingUser,token);
+    return {
+        token,
+        user : toUserResponse(existingUser)
+    }
 }

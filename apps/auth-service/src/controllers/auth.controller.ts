@@ -23,7 +23,7 @@ export async function login(
 ){
     try {
         const user = await authService.login(req.body);
-        return successResponse(res,{user},200);
+        return successResponse(res,user,200);
     } catch (error) {
         console.log(`err ${error}`)
         next(error)
