@@ -6,7 +6,7 @@ import { success } from "zod";
 export function successResponse(
     res : Response,
     data : unknown,
-    statusCode : 200
+    statusCode = 200
 ){
     return res.status(statusCode).json({
         success : true,
