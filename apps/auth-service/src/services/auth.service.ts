@@ -1,12 +1,11 @@
 import { AppError } from "shared";
-import { createUser, findByEmail,  } from "../repositories/auth.repo";
+import { createUser, findByEmail, findById,  } from "../repositories/auth.repo";
 import { LoginInput, RegisterInput } from "../schemas/auth.schema";
 import bcrypt from 'bcryptjs';
-import { toLoginUserResponse, toUserResponse } from "../mapper/user.mapper";
-import jwt from "jsonwebtoken"
+import {  toUserResponse } from "../mapper/user.mapper";
 import { generateToken } from "../utils/jwt";
 import { User } from "../types/auth.type";
-
+ 
 export async function register(input : RegisterInput){
     const existingUser = await findByEmail(input.email);
     if(existingUser){
@@ -42,3 +41,13 @@ export async function login(input : LoginInput){
         user : toUserResponse(existingUser)
     }
 }
+
+
+export async function getMe(userId : string){
+    const existingUser : User | null = await findById(userId);
+    if(!existingUser){
+        throw new AppError(404,"user not found");
+    }
+    return toUserResponse(existingUser!);
+}
+

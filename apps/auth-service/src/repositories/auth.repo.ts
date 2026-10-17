@@ -1,6 +1,15 @@
 import { getPool } from "shared";
 import { User, UserRole } from "../types/auth.type";
 
+export async function findById(userId : string) : Promise<User | null>{
+  const pool =  getPool();
+    const result = await pool.query<User>(
+      `SELECT id, name, email,password_hash, role,created_at
+      FROM users WHERE id=$1`,[userId]
+    );
+    return result.rows[0] ?? null;
+}
+
 export async function findByEmail(email: string): Promise<User | null> {
     const pool =  getPool();
     const result = await pool.query<User>(
