@@ -33,14 +33,8 @@ app.use("/health",(req,res)=>{
 
 
 // create proxy starts 
-
 // auth-service proxy 
-app.use("/auth",  (req, res, next) => {
-    console.log("🔥 API Gateway received request");
-    console.log("Method:", req.method);
-    console.log("URL:", req.originalUrl);
-    next();
-  },createProxyMiddleware({
+app.use("/auth",createProxyMiddleware({
     target : AUTH_SERVICE_URL,
     changeOrigin : true,
     pathRewrite : (path) => `/auth${path}`
