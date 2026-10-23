@@ -6,8 +6,6 @@ import {closePool, getPool} from "../packages/shared/src/db/pool.ts"
 config({path:resolve(process.cwd(),'.env')});
 
 async function main(){
-    console.log("argv is");
-    console.log(process.argv);
     const file = process.argv[2] ?? "sql/001_user.sql";
     const sql = readFileSync(resolve(process.cwd(),file),'utf-8');
 

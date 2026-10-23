@@ -13,7 +13,7 @@ export function requireGatewaySecret(
 
     const incoming = _req.header("x-gateway-secret");
     if(!incoming || incoming!== expected){
-        return next(new AppError(403,"Forbidden."))
+        return next(new AppError(403,"you cant access this as the gateway secret is missing."))
     }
 
     next();

@@ -1,6 +1,4 @@
 import type { UserRole } from "shared";
-
-
 export type RbacRule = {
     method : string;
     path : string;
@@ -25,7 +23,8 @@ const rbacRules : RbacRule[] = [
 ]
 
 export function matchPath(pattern : string,actual : string) : boolean{
-    
+
+
     if(pattern === actual){
         return true;
     }

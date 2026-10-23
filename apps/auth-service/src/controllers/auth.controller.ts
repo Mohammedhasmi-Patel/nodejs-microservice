@@ -11,7 +11,6 @@ export async function register(
         const user = await authService.register(req.body);
         successResponse(res,{user},201);
     } catch (error) {
-        console.log(`error ${error}`)
         next(error)
     }
 }
@@ -25,7 +24,6 @@ export async function login(
         const user = await authService.login(req.body);
         return successResponse(res,user,200);
     } catch (error) {
-        console.log(`err ${error}`)
         next(error)
     }
 }
